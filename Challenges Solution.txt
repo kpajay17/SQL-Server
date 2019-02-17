@@ -1,0 +1,51 @@
+select Challenges.hacker_id, Hackers.name ,count(Challenges.hacker_id) as challenges_created
+from Hackers
+    inner join Challenges on Challenges.hacker_id = Hackers.hacker_id
+group by Challenges.hacker_id,Hackers.name
+having 
+    count(Challenges.hacker_id) =
+         (SELECT MAX(temp1.cnt)
+         from (SELECT COUNT(hacker_id) as cnt
+               from Challenges
+               group by hacker_id
+         )temp1)
+ or count(Challenges.hacker_id) in 
+         (select t.cnt
+         from (select count(*) as cnt 
+               from challenges
+               group by hacker_id) t
+         group by t.cnt
+         having count(t.cnt) = 1)
+order by challenges_created DESC, Challenges.hacker_id
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
