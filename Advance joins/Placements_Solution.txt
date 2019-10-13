@@ -1,0 +1,14 @@
+select std.name from (
+select friend1Id,friend1Salary,friend2Id,p2.salary as friend2Salary  from (
+    select f.id as friend1Id,f.friend_id as friend2Id,p.salary as friend1Salary 
+    from Friends f
+    inner join Packages p
+    on f.id=p.id
+    )as s
+inner join Packages p2
+on s.friend2Id=p2.id
+) n
+inner join Students std
+on n.friend1Id=std.id
+and n.friend2Salary>n.friend1Salary
+order by n.friend2Salary
