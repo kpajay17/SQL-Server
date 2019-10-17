@@ -1,0 +1,30 @@
+PROBLEM:
+----------------------------
+Write a query to print all prime numbers less than or equal to . Print your result on a single line, and
+use the ampersand (&) character as your separator (instead of a space).
+For example, the output for all prime numbers would be:
+2&3&5&7...
+
+SOLUTION:
+----------------------------
+
+DECLARE @range int = 1000, @x INT = 2, @y INT = 2 , @finalNo nvarchar(1000)='',@flag int=0
+While (@y <= @range)
+BEGIN
+        while (@x <= CONVERT(INT,SQRT(@y)))
+            begin
+            IF ((@y%@x) =0) 
+            BEGIN
+                Set @Flag=1
+                break
+            END
+            set @x = @x+1
+        end 
+    IF (@Flag=0)
+    SET @finalNo=CONCAT(@finalNo,@y,'&'); 
+    Set @Flag=0
+    set @x = 2
+    set @y = @y+1 
+end
+set @finalNo=SUBSTRING(@finalNo,1,LEN(@finalNo)-1)
+PRINT @finalNo
