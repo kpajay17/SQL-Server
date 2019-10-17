@@ -1,0 +1,22 @@
+select C.Company_code,C.founder
+    ,COUNT(distinct lm.Lead_Manager_code)
+    ,COUNT(distinct sm.Senior_Manager_code)
+    ,COUNT(distinct m.Manager_code)
+    ,COUNT(distinct e.Employee_code)
+from Company C
+inner join Lead_Manager lm
+    on C.Company_code=lm.Company_code
+inner join Senior_Manager sm
+    on C.Company_code=sm.Company_code
+    and lm.Lead_Manager_code=sm.Lead_Manager_code
+inner join Manager m
+    on C.Company_code=sm.Company_code
+    and lm.Lead_Manager_code=sm.Lead_Manager_code
+    and sm.Senior_Manager_code=m.Senior_Manager_code
+inner join Employee e
+    on C.Company_code=sm.Company_code
+    and lm.Lead_Manager_code=sm.Lead_Manager_code
+    and sm.Senior_Manager_code=m.Senior_Manager_code
+    and m.Manager_code=e.Manager_code
+group by C.Company_code,C.founder
+order by C.Company_code
